@@ -111,8 +111,6 @@ node index.js show <analysisId>
 
 ## Possible Future Improvements
 
-- Job description matching (score resume against a specific JD)
-- Scoped IAM policy (replace full-access managed policies with least-privilege custom policy)
 - `chalk`/`ora` for colored output and loading spinners
 - Retry/error-handling improvements across the S3 → Textract → Bedrock → DynamoDB pipeline
 
