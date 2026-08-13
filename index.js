@@ -14,7 +14,8 @@ program
     "stores the resume in S3 bucket and analyses the resume and returns an id associated with it",
   )
   .argument("<resume>")
-  .action(async (resume) => await analyse(resume));
+  .argument("<role>")
+  .action(async (resume,role) => await analyse(resume,role));
 program
   .command("history")
   .description("Returns a history of resumes uploaded with its id")

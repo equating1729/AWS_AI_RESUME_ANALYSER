@@ -12,7 +12,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 const client = new DynamoDBClient({ region: config.region });
 const docClient = DynamoDBDocumentClient.from(client);
 
-const upload = async function (filePath, res) {
+const upload = async function (filePath, res, role) {
   const uniqueId = Date.now();
   const fileName = path.basename(filePath);
   try {
@@ -22,6 +22,7 @@ const upload = async function (filePath, res) {
         uniqueID: uniqueId,
         FileName: fileName,
         Response: res,
+        Role: role,
       },
     };
     await docClient.send(new PutCommand(params));

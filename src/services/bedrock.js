@@ -4,7 +4,7 @@ import {
   InvokeModelCommand,
 } from "@aws-sdk/client-bedrock-runtime";
 import { config } from "../config.js";
-const analyser = async function (text) {
+const analyser = async function (text, userRole) {
   try {
     const region = config.region;
     const model = "openai.gpt-oss-20b-1:0";
@@ -13,10 +13,10 @@ const analyser = async function (text) {
       messages: [
         {
           role: "system",
-          content: `You are an expert ATS and technical recruiter.Analyze the provided resume and return: 
-      Overall Score (0-100),ATS Score (0-100),Strengths,Weaknesses, Missing Skills, Suggestions for Improvement, 
+          content: `You are an expert ATS and technical recruiter.Analyze the provided resume based on given role = ${userRole} and return: 
+      Overall Score (0-100) for given ${userRole},ATS Score (0-100),Strengths,Weaknesses, Missing Skills, Suggestions for Improvement, 
       Final Verdict (Excellent, Good, Average, or Needs Improvement), Provide only factual, 
-      constructive feedback based on the resume. Do not invent information. 
+      constructive feedback based on the role. Do not invent information. 
       Respond ONLY with valid JSON matching this exact structure, no markdown, no code fences, no extra text before or after:
     {
         "overallScore": number,
