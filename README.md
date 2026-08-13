@@ -109,11 +109,6 @@ node index.js show <analysisId>
 ![output1](./assests/img/output1.png)
 ![output2](./assests/img/output2.png)
 
-## Possible Future Improvements
-
-- `chalk`/`ora` for colored output and loading spinners
-- Retry/error-handling improvements across the S3 → Textract → Bedrock → DynamoDB pipeline
-
 ## Bibliography
 
 - [aws-sdk/dynamoDB](https://www.npmjs.com/package/@aws-sdk/client-dynamodb)
