@@ -1,3 +1,4 @@
+import { error } from "../utils/chalk.js";
 import {
   BedrockRuntimeClient,
   InvokeModelCommand,
@@ -54,7 +55,7 @@ const analyser = async function (text) {
     // console.log(parsed);
     return parsed;
   } catch (e) {
-    console.log(e);
+    console.log(error(e));
     throw e;
   }
 };

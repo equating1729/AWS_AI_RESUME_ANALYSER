@@ -2,6 +2,7 @@ import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 import { config } from "../config.js";
 import fs from "fs";
 import path from "path";
+import { error, message, ans } from "../utils/chalk.js";
 
 //sdk autoloads the access key and screet key no need to define in here
 const s3Client = new S3Client({
@@ -19,12 +20,11 @@ export const uploadFile = async function (filePath) {
     if (fs.existsSync(filePath)) {
       fs.unlink(filePath, (err) => {
         if (err) {
-          console.error("Error deleting file:", err);
+          console.error(error("Error deleting file:"), err);
         } else {
-          console.log("File Uploaded successfully.");
+          console.log(message("File Uploaded successfully."));
         }
       });
     }
   });
 };
-

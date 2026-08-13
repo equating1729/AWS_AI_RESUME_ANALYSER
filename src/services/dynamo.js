@@ -1,3 +1,4 @@
+import { error, message, ans } from "../utils/chalk.js";
 import {
   DynamoDBDocumentClient,
   PutCommand,
@@ -24,10 +25,10 @@ const upload = async function (filePath, res) {
       },
     };
     await docClient.send(new PutCommand(params));
-    console.log("Data uploaded successfully.");
+    console.log(message("Data uploaded successfully."));
     return uniqueId;
   } catch (e) {
-    console.log(e);
+    console.log(error(e));
   }
 };
 
@@ -40,10 +41,10 @@ const fetch = async function (id) {
       },
     };
     const res = await docClient.send(new GetCommand(params));
-    if (!res) return console.log("Did not found any item");
+    if (!res) return console.log(message("Did not found any item"));
     return res;
   } catch (e) {
-    console.log(e);
+    console.log(error(e));
   }
 };
 
@@ -55,10 +56,10 @@ const data = async function () {
       // AttributesToGet: ["uniqueID", "FileName", "Response"],
     };
     const ans = await client.send(new ScanCommand(params));
-    if (!ans) console.log("Error fetching data");
+    if (!ans) console.log(error("Error fetching data"));
     return ans.Items;
   } catch (e) {
-    console.log(e);
+    console.log(error(e));
   }
 };
 
