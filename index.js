@@ -15,7 +15,7 @@ program
   )
   .argument("<resume>")
   .argument("<role>")
-  .action(async (resume,role) => await analyse(resume,role));
+  .action(async (resume, role) => await analyse(resume, role));
 program
   .command("history")
   .description("Returns a history of resumes uploaded with its id")

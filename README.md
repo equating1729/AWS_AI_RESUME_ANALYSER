@@ -1,17 +1,17 @@
 # AWS based AI Resume Analyser (CLI)
 
-It is a CLI tool that analyzes resumes using AWS services and an LLM.
-Upload a resume PDF, get an ATS score, strengths/weaknesses breakdown, and improvement suggestions.
-Saved in Database to access other resume.
+It is a CLI tool that analyzes resumes based on given role using AWS services and an LLM.
+Upload a resume PDF, get an ATS score, strengths/weaknesses breakdown, and improvement suggestions for the particular role.
+Saved in Database to access other resumes.
 
 ## Features
 
-- Extracts text from resume PDFs
-- Analyzes the resume using an LLM (Amazon Bedrock)
-- Generates an Overall Score and ATS Score (0–100)
-- Lists strengths, weaknesses, and missing skills
-- Suggests concrete improvements
-- Saves every analysis so it can be looked up later by ID
+- Extracts text from resume PDFs.
+- Analyzes the resume based on given role using an LLM (Amazon Bedrock).
+- Generates an Overall Score and ATS Score (0–100).
+- Lists strengths, weaknesses, and missing skills for the role.
+- Suggests concrete improvements.
+- Saves every analysis so it can be looked up later by ID.
 
 ## Tech Stack
 
@@ -38,14 +38,14 @@ Saved in Database to access other resume.
 
 ![File Structure](./assests/img/flowchart.png)
 
-**Design principle:** commands orchestrate, services execute. Each AWS service is isolated in its own file, so swapping implementations (e.g. Textract → local `pdf-parse`, or Bedrock → direct Anthropic API) only touches one file.
+**Design principle:** Each AWS service is isolated in its own file, so swapping implementations (e.g. Textract → local `pdf-parse`, or Bedrock → direct Anthropic API) only touches one file.
 
 ## AWS Resources Used
 
 | Resource             | Purpose                                                              |
 | -------------------- | -------------------------------------------------------------------- |
 | S3 bucket            | Stores uploaded resume PDFs                                          |
-| DynamoDB table       | Stores analysis results, keyed by a unique numeric ID                |
+| DynamoDB table       | Stores analysis results, keyed by a unique numeric ID,with role      |
 | Bedrock model access | Runs the LLM analysis (Anthropic Claude, or an alternative provider) |
 | IAM user + policy    | Scoped permissions for S3, Bedrock, DynamoDB, and Textract           |
 
@@ -54,9 +54,7 @@ Saved in Database to access other resume.
 - `s3:PutObject`, `s3:GetObject`
 - `bedrock:InvokeModel`
 - `dynamodb:PutItem`, `dynamodb:GetItem`, `dynamodb:Scan`
-- `textract:*` _(if using Textract instead of the local fallback)_
 - `aws-marketplace:Subscribe`, `aws-marketplace:Unsubscribe`, `aws-marketplace:ViewSubscriptions`
-  > **Note on least privilege:** during development it's common to prototype with broad managed policies (e.g. `AmazonS3FullAccess`) and tighten to a scoped custom policy once resource names/ARNs are finalized. This project's design keeps AWS calls isolated per-service specifically to make that tightening easy.
 
 ## Known Issues / Notes
 
@@ -95,7 +93,7 @@ Saved in Database to access other resume.
 
 ```bash
 # Analyze a resume
-node index.js analyse ./path/to/resume.pdf
+node index.js analyse ./path/to/resume.pdf <role>
 
 # View all past analyses
 node index.js history
@@ -108,6 +106,7 @@ node index.js show <analysisId>
 
 ![output1](./assests/img/output1.png)
 ![output2](./assests/img/output2.png)
+![output2](./assests/img/output3.png)
 
 ## Bibliography
 
